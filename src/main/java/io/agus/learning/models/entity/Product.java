@@ -1,6 +1,7 @@
 package io.agus.learning.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
@@ -11,11 +12,15 @@ public class Product implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
+  @NotEmpty(message = "Nama harus diisi!")
   @Column(name = "nama", length = 100)
   private String name;
 
+  @NotEmpty(message = "Deskripsi harus diisi!")
   @Column(name = "deskripsi", length = 500)
   private String description;
+
+  @Column(nullable = false)
   private double price;
 
   public Product() {
