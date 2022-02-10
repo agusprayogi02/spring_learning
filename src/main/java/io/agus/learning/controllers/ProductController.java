@@ -25,7 +25,7 @@ public class ProductController {
         ResponseData<Product> rest = new ResponseData<>();
         if (err.hasErrors()) {
             for (ObjectError msg : err.getAllErrors()) {
-                rest.getMessage().add(msg.toString());
+                rest.getMessage().add(msg.getDefaultMessage());
             }
             rest.setStatus(false);
             rest.setPayload(null);
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<Product>> updateById(@RequestBody Product product,
+    public ResponseEntity<ResponseData<Product>> updateById(@Valid @RequestBody Product product,
                                                             Errors err) {
         ResponseData<Product> rest = new ResponseData<>();
 
