@@ -1,7 +1,9 @@
 package io.agus.learning;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class LearningApplication {
@@ -10,4 +12,8 @@ public class LearningApplication {
         SpringApplication.run(LearningApplication.class, args);
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

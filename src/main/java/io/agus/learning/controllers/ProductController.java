@@ -22,18 +22,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product,
                                                         Errors err) {
-        ResponseData<Product> rest = new ResponseData<>();
-        if (err.hasErrors()) {
-            for (ObjectError msg : err.getAllErrors()) {
-                rest.getMessage().add(msg.getDefaultMessage());
-            }
-            rest.setStatus(false);
-            rest.setPayload(null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rest);
-        }
-        rest.setStatus(true);
-        rest.setPayload(service.save(product));
-        return ResponseEntity.ok(rest);
+        return getResponseDataResponseEntity(product, err);
     }
 
     @GetMapping
@@ -54,6 +43,10 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<ResponseData<Product>> updateById(@Valid @RequestBody Product product,
                                                             Errors err) {
+        return getResponseDataResponseEntity(product, err);
+    }
+
+    private ResponseEntity<ResponseData<Product>> getResponseDataResponseEntity(@RequestBody @Valid Product product, Errors err) {
         ResponseData<Product> rest = new ResponseData<>();
 
         if (err.hasErrors()) {
@@ -61,6 +54,7 @@ public class ProductController {
                 rest.getMessage().add(msg.getDefaultMessage());
             }
             rest.setStatus(false);
+            rest.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rest);
         }
         rest.setStatus(true);

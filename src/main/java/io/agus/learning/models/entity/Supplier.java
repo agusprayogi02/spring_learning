@@ -15,8 +15,8 @@ public class Supplier implements Serializable {
     @Column(name = "nama", nullable = false, length = 150)
     private String name;
 
-    @Column(length = 200, nullable = false)
-    private String alamat;
+    @Column(name = "alamat", nullable = false, length = 200)
+    private String address;
 
     @Column(unique = true, length = 150)
     private String email;
@@ -24,10 +24,14 @@ public class Supplier implements Serializable {
     @ManyToMany(mappedBy = "suppliers")
     private Set<Product> products;
 
-    public Supplier(Long id, String name, String alamat, String email) {
+    public String getAddress() {
+        return address;
+    }
+
+    public Supplier(Long id, String name, String address, String email) {
         this.id = id;
         this.name = name;
-        this.alamat = alamat;
+        this.address = address;
         this.email = email;
     }
 
@@ -40,7 +44,7 @@ public class Supplier implements Serializable {
     }
 
     public String getAlamat() {
-        return alamat;
+        return address;
     }
 
     public void setName(String name) {
@@ -59,8 +63,8 @@ public class Supplier implements Serializable {
         this.id = id;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setAlamat(String address) {
+        this.address = address;
     }
 
     public void setEmail(String email) {
