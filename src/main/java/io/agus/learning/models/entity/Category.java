@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Table(name = "tbl_categories")
 public class Category implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "Nama harus di Isi!")

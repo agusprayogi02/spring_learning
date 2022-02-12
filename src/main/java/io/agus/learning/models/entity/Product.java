@@ -1,24 +1,22 @@
 package io.agus.learning.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "tbl_product")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+// @JsonIdentityInfo(
+// generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "id"
+// )
 public class Product implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @NotEmpty(message = "Nama harus diisi!")
@@ -37,8 +35,8 @@ public class Product implements Serializable {
 
   @ManyToMany
   @JoinTable(name = "tbl_products_suppliers", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "supplier_id"))
-//  @JsonManagedReference
-  private Set<Supplier> suppliers = new HashSet<>();
+  // @JsonManagedReference
+  private Set<Supplier> suppliers;
 
   public Product() {
   }

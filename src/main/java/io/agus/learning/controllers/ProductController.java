@@ -1,9 +1,11 @@
 package io.agus.learning.controllers;
 
 import io.agus.learning.dto.ResponseData;
+import io.agus.learning.dto.SearchData;
 import io.agus.learning.models.entity.Product;
 import io.agus.learning.models.entity.Supplier;
 import io.agus.learning.services.ProductService;
+import io.agus.learning.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -19,6 +23,9 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+
+    @Autowired
+    private SupplierService supplierService;
 
     @PostMapping
     public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product,
@@ -67,5 +74,29 @@ public class ProductController {
     public void addSupplier(@RequestBody Supplier supplier,
                             @PathVariable("id") Long productId) {
         service.addSupplier(supplier, productId);
+    }
+
+    @PostMapping("/search/name")
+    public Product findByName(@RequestBody SearchData data){
+        return service.findName(data.getSearchKey());
+    }
+
+    @PostMapping("/search/name/like")
+    public List<Product> findByNameLike(@RequestBody SearchData data){
+        return service.findByNameLike(data.getSearchKey());
+    };
+
+    @GetMapping("/search/category/{categoryId}")
+    public List<Product> findByCategoryId(@PathVariable("categoryId") Long categoryId){
+        return service.findByCategoryId(categoryId);
+    }
+
+    @GetMapping("/search/supplier/{supplierId}")
+    public List<Product> getProductBySupplierId(@PathVariable("supplierId") Long id){
+        Supplier supplier = supplierService.findOne(id);
+        if(supplier == null){
+            return new ArrayList<Product>();
+        }
+        return service.findBySupplier(supplier);
     }
 }
