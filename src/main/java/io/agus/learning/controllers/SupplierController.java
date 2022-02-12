@@ -1,6 +1,7 @@
 package io.agus.learning.controllers;
 
 import io.agus.learning.dto.ResponseData;
+import io.agus.learning.dto.SearchData;
 import io.agus.learning.dto.SupplierData;
 import io.agus.learning.models.entity.Supplier;
 import io.agus.learning.services.SupplierService;
@@ -11,7 +12,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/supplier")
@@ -43,7 +47,8 @@ public class SupplierController {
         return getResponseDataResponseEntity(item, errs);
     }
 
-    private ResponseEntity<ResponseData<Supplier>> getResponseDataResponseEntity(@Valid @RequestBody SupplierData item, Errors errs) {
+    private ResponseEntity<ResponseData<Supplier>> getResponseDataResponseEntity(@Valid @RequestBody SupplierData item,
+            Errors errs) {
         ResponseData<Supplier> response = new ResponseData<>();
         if (errs.hasErrors()) {
             for (ObjectError err : errs.getAllErrors()) {
@@ -57,5 +62,25 @@ public class SupplierController {
         response.setStatus(true);
         response.setPayload(service.save(supplier));
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/search/byEmail")
+    public Supplier getMethodEmail(@RequestBody SearchData searchData) {
+        return service.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping(value = "/search/byName")
+    public List<Supplier> getMethodName(@RequestBody SearchData searchData) {
+        return service.findByNameContains(searchData.getSearchKey());
+    }
+
+    @PostMapping(value = "/search/byEmailOrName")
+    public List<Supplier> getMethodEmailOrName(@RequestBody SearchData searchData) {
+        return service.findByEmailContainsOrNameContains(searchData.getSearchKey(), searchData.getOtherSearchKey());
+    }
+
+    @PostMapping(value = "/search/byNameStartsWith")
+    public List<Supplier> getMethodNameStartsWith(@RequestBody SearchData searchData) {
+        return service.findByNameStartsWith(searchData.getSearchKey());
     }
 }
