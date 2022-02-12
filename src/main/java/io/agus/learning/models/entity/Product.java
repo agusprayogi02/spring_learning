@@ -1,12 +1,20 @@
 package io.agus.learning.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "tbl_product")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Product implements Serializable {
 
   @Id
@@ -14,11 +22,11 @@ public class Product implements Serializable {
   private long id;
 
   @NotEmpty(message = "Nama harus diisi!")
-  @Column(name = "nama", length = 100)
+  @Column(length = 100)
   private String name;
 
   @NotEmpty(message = "Deskripsi harus diisi!")
-  @Column(name = "deskripsi", length = 500)
+  @Column(length = 500)
   private String description;
 
   @Column(nullable = false)
@@ -29,7 +37,8 @@ public class Product implements Serializable {
 
   @ManyToMany
   @JoinTable(name = "tbl_products_suppliers", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "supplier_id"))
-  private Set<Supplier> suppliers;
+//  @JsonManagedReference
+  private Set<Supplier> suppliers = new HashSet<>();
 
   public Product() {
   }
@@ -39,6 +48,15 @@ public class Product implements Serializable {
     this.name = name;
     this.description = description;
     this.price = price;
+  }
+
+  public Product(long id, String name, String description, double price, Category category, Set<Supplier> suppliers) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.category = category;
+    this.suppliers = suppliers;
   }
 
   public long getId() {

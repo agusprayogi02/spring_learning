@@ -2,6 +2,7 @@ package io.agus.learning.controllers;
 
 import io.agus.learning.dto.ResponseData;
 import io.agus.learning.models.entity.Product;
+import io.agus.learning.models.entity.Supplier;
 import io.agus.learning.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,5 +61,11 @@ public class ProductController {
         rest.setStatus(true);
         rest.setPayload(service.save(product));
         return ResponseEntity.ok(rest);
+    }
+
+    @PostMapping("/{id}")
+    public void addSupplier(@RequestBody Supplier supplier,
+                            @PathVariable("id") Long productId) {
+        service.addSupplier(supplier, productId);
     }
 }

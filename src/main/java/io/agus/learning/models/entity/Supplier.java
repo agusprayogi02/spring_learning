@@ -1,32 +1,35 @@
 package io.agus.learning.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "tbl_suppliers")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Supplier implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "nama", nullable = false, length = 150)
+    @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(name = "alamat", nullable = false, length = 200)
+    @Column(nullable = false, length = 200)
     private String address;
 
     @Column(unique = true, length = 150)
     private String email;
 
     @ManyToMany(mappedBy = "suppliers")
-    private Set<Product> products;
-
-    public String getAddress() {
-        return address;
-    }
+//    @JsonBackReference
+    private Set<Product> products = new HashSet<>();
 
     public Supplier(Long id, String name, String address, String email) {
         this.id = id;
@@ -35,24 +38,15 @@ public class Supplier implements Serializable {
         this.email = email;
     }
 
-    public Supplier() {
-
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAlamat() {
-        return address;
-    }
-
-    public void setName(String name) {
+    public Supplier(Long id, String name, String address, String email, Set<Product> products) {
+        this.id = id;
         this.name = name;
+        this.address = address;
+        this.email = email;
+        this.products = products;
     }
 
-    public String getName() {
-        return name;
+    public Supplier() {
     }
 
     public Long getId() {
@@ -63,8 +57,24 @@ public class Supplier implements Serializable {
         this.id = id;
     }
 
-    public void setAlamat(String address) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {

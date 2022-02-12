@@ -8,11 +8,11 @@ import java.io.Serializable;
 @Table(name = "tbl_categories")
 public class Category implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull(message = "Nama harus di Isi!")
-    @Column(name = "nama", unique = true, length = 100)
+    @Column(unique = true, length = 100)
     private String name;
 
     public Category(Long id, String name) {

@@ -1,6 +1,7 @@
 package io.agus.learning.services;
 
 import io.agus.learning.models.entity.Product;
+import io.agus.learning.models.entity.Supplier;
 import io.agus.learning.models.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,14 @@ public class ProductService {
 
     public List<Product> findByName(String name) {
         return repo.findByNameContains(name);
+    }
+
+    public void addSupplier(Supplier item, Long productId) {
+        Product product = findOne(productId);
+        if (product == null) {
+            throw new RuntimeException("Product not found");
+        }
+        product.getSuppliers().add(item);
+        save(product);
     }
 }

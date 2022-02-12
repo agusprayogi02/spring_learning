@@ -10,18 +10,9 @@ public class SupplierData {
     @NotEmpty(message = "Alamat harus diisi!")
     private String address;
 
-    @Email(message = "Email tidak valid!")
     @NotEmpty(message = "Email harus diisi!")
+    @Email(message = "Email tidak valid!")
     private String email;
-
-    public SupplierData(String name, String address, String email) {
-        this.name = name;
-        this.address = address;
-        this.email = email;
-    }
-
-    public SupplierData() {
-    }
 
     public String getName() {
         return name;

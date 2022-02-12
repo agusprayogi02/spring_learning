@@ -23,6 +23,7 @@ public class SupplierController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @PostMapping
     public ResponseEntity<ResponseData<Supplier>> create(@Valid @RequestBody SupplierData item, Errors errs) {
         return getResponseDataResponseEntity(item, errs);
     }
@@ -42,7 +43,7 @@ public class SupplierController {
         return getResponseDataResponseEntity(item, errs);
     }
 
-    private ResponseEntity<ResponseData<Supplier>> getResponseDataResponseEntity(@RequestBody @Valid SupplierData item, Errors errs) {
+    private ResponseEntity<ResponseData<Supplier>> getResponseDataResponseEntity(@Valid @RequestBody SupplierData item, Errors errs) {
         ResponseData<Supplier> response = new ResponseData<>();
         if (errs.hasErrors()) {
             for (ObjectError err : errs.getAllErrors()) {

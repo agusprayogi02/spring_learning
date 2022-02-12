@@ -9,15 +9,6 @@ public class ResponseData<T> {
     private List<String> message = new ArrayList<>();
     private T payload;
 
-    public ResponseData(boolean status, List<String> message, T payload) {
-        this.status = status;
-        this.message = message;
-        this.payload = payload;
-    }
-
-    public ResponseData() {
-    }
-
     public boolean isStatus() {
         return status;
     }
