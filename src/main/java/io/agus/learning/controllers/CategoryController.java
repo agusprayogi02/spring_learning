@@ -7,17 +7,16 @@ import io.agus.learning.models.entity.Category;
 import io.agus.learning.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -45,8 +44,19 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<Category>> update(@Valid @RequestBody CategoryData item, Errors errs) {
-        return getSave(item, errs);
+    public ResponseEntity<ResponseData<Category>> update(@Valid @RequestBody Category item, Errors errs) {
+        ResponseData<Category> response = new ResponseData<>();
+        if(errs.hasErrors()){
+            for(ObjectError err : errs.getAllErrors()){
+                response.getMessage().add(err.getDefaultMessage());
+            }
+            response.setStatus(false);
+            response.setPayload(null);
+            return ResponseEntity.badRequest().body(response);
+        }
+        response.setStatus(true);
+        response.setPayload(service.save(item));
+        return ResponseEntity.ok(response);
     }
 
     private ResponseEntity<ResponseData<Category>> getSave(CategoryData item,

@@ -12,10 +12,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/supplier")
@@ -29,7 +27,19 @@ public class SupplierController {
 
     @PostMapping
     public ResponseEntity<ResponseData<Supplier>> create(@Valid @RequestBody SupplierData item, Errors errs) {
-        return getResponseDataResponseEntity(item, errs);
+        ResponseData<Supplier> response = new ResponseData<>();
+        if (errs.hasErrors()) {
+            for (ObjectError err : errs.getAllErrors()) {
+                response.getMessage().add(err.getDefaultMessage());
+            }
+            response.setStatus(false);
+            response.setPayload(null);
+            return ResponseEntity.badRequest().body(response);
+        }
+        Supplier supplier = modelMapper.map(item, Supplier.class);
+        response.setStatus(true);
+        response.setPayload(service.save(supplier));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -43,12 +53,7 @@ public class SupplierController {
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<Supplier>> update(@Valid @RequestBody SupplierData item, Errors errs) {
-        return getResponseDataResponseEntity(item, errs);
-    }
-
-    private ResponseEntity<ResponseData<Supplier>> getResponseDataResponseEntity(@Valid @RequestBody SupplierData item,
-            Errors errs) {
+    public ResponseEntity<ResponseData<Supplier>> update(@Valid @RequestBody Supplier item, Errors errs) {
         ResponseData<Supplier> response = new ResponseData<>();
         if (errs.hasErrors()) {
             for (ObjectError err : errs.getAllErrors()) {
@@ -58,9 +63,8 @@ public class SupplierController {
             response.setPayload(null);
             return ResponseEntity.badRequest().body(response);
         }
-        Supplier supplier = modelMapper.map(item, Supplier.class);
         response.setStatus(true);
-        response.setPayload(service.save(supplier));
+        response.setPayload(service.save(item));
         return ResponseEntity.ok(response);
     }
 

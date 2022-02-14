@@ -1,13 +1,15 @@
 package io.agus.learning.services;
 
-import io.agus.learning.models.entity.Category;
-import io.agus.learning.models.repo.CategoryRepo;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Optional;
+import io.agus.learning.models.entity.Category;
+import io.agus.learning.models.repo.CategoryRepo;
 
 @Service
 @Transactional
