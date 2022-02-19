@@ -1,15 +1,13 @@
 package io.agus.learning.services;
 
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
+import io.agus.learning.models.entity.Category;
+import io.agus.learning.models.repo.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import io.agus.learning.models.entity.Category;
-import io.agus.learning.models.repo.CategoryRepo;
+import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,10 +22,7 @@ public class CategoryService {
 
     public Category findOne(Long id) {
         Optional<Category> item = repo.findById(id);
-        if (!item.isPresent()) {
-            return null;
-        }
-        return item.get();
+        return item.orElse(null);
     }
 
     public Iterable<Category> findAll() {

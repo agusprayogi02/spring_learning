@@ -4,15 +4,25 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class AppUserData {
-  @NotNull(message = "Name is required")
-  private String fullName;
+    @Override
+    public String toString() {
+        return "AppUserData{" +
+                "fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 
-  @Email(message = "Email is not valid")
-  @NotNull(message = "Email is required")
-  private String email;
+    @NotNull(message = "Name is required")
+    private String fullName;
 
-  @NotNull(message = "Password is required")
-  private String password;
+    @Email(message = "Email is not valid")
+    @NotNull(message = "Email is required")
+    private String email;
+
+    @NotNull(message = "Password is required")
+    private String password;
 
   @NotNull(message = "Role is required")
   private String role;

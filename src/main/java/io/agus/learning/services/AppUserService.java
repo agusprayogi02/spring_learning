@@ -1,7 +1,7 @@
 package io.agus.learning.services;
 
-import javax.transaction.Transactional;
-
+import io.agus.learning.models.entity.AppUser;
+import io.agus.learning.models.repo.AppUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,8 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.agus.learning.models.entity.AppUser;
-import io.agus.learning.models.repo.AppUserRepo;
+import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -24,8 +23,8 @@ public class AppUserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    return repo.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("User with Email " + email + " not found"));
+      return repo.findByEmail(email)
+              .orElseThrow(() -> new UsernameNotFoundException("User with Email " + email + " not found!"));
   }
 
   public AppUser registerAppUser(AppUser user) {
