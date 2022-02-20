@@ -1,6 +1,9 @@
 package io.agus.learning.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +13,9 @@ import java.util.Set;
 @Table(name = "tbl_suppliers")
 // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
 // property = "id")
+@Setter
+@Getter
+@NoArgsConstructor
 public class Supplier implements Serializable {
 
     @Id
@@ -28,62 +34,4 @@ public class Supplier implements Serializable {
     @ManyToMany(mappedBy = "suppliers")
     @JsonBackReference
     private Set<Product> products;
-
-    public Supplier(Long id, String name, String address, String email) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.email = email;
-    }
-
-    public Supplier(Long id, String name, String address, String email, Set<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.products = products;
-    }
-
-    public Supplier() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
 }

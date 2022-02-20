@@ -1,5 +1,7 @@
 package io.agus.learning.models.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,6 +16,8 @@ import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
+@Setter
+@Getter
 public class BaseEntity<T> {
 
     @CreatedBy
@@ -29,36 +33,4 @@ public class BaseEntity<T> {
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public T getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(T createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public T getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(T updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

@@ -1,11 +1,18 @@
 package io.agus.learning.models.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "tbl_categories")
+@Setter
+@Getter
+@NoArgsConstructor
 public class Category extends BaseEntity<String> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,29 +21,4 @@ public class Category extends BaseEntity<String> implements Serializable {
     @NotNull(message = "Nama harus di Isi!")
     @Column(unique = true, length = 100)
     private String name;
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Category() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

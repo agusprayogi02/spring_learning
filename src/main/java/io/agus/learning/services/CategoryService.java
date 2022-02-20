@@ -17,6 +17,11 @@ public class CategoryService {
     private CategoryRepo repo;
 
     public Category save(Category item) {
+        if (item.getId() != null) {
+            Category current = findOne(item.getId());
+            current.setName(item.getName());
+            item = current;
+        }
         return repo.save(item);
     }
 
